@@ -18,7 +18,7 @@ export class GildedRose {
     }
 
     changeDay(day: number):number{
-        return day-1;
+        return day - 1;
     }
 
     evenFifty(nmbr: number): number {
@@ -27,14 +27,14 @@ export class GildedRose {
     }
 
     agedBrie(item: Item):Item{
-        item.sellIn = this.changeDay(item.sellIn);
+
         item.quality = item.sellIn<0 ? item.quality + 2 : item.quality + 1
         item.quality = this.evenFifty(item.quality);
         return item;
     }
 
     backStage(item: Item):Item{
-        item.sellIn = this.changeDay(item.sellIn);
+
         if(item.sellIn > 10 && item.sellIn <50) {
             item.quality = item.quality + 1
         }
@@ -62,17 +62,31 @@ export class GildedRose {
     }
 
     basicItems(item:Item):Item{
-        item.sellIn  = this.changeDay(item.sellIn);
-        item.quality = item.sellIn < 0 ? item.quality - 2 : item.quality - 1;
-        item.quality = this.evenFifty(item.quality);    
+        item.quality = item.sellIn < 0 ? item.quality - 2 : item.quality - 1;  
         return item;
+    }
+
+    isConjured(name:string):boolean{
+        return name.startsWith('Conjured' || 'conjured');
+    }
+
+    conjured(item:Item):Item {
+        item.quality = item.sellIn < 0 ? item.quality - 4 : item.quality-2;
+        return item;
+
     }
 
     updateQuality() {
         // for (let i = 0; i < this.items.length; i++)
         this.items = this.items.map(item=> {
 
+            item.sellIn  = this.changeDay(item.sellIn);
+            const isConjured = this.isConjured(item.name)
+
+            if(isConjured) return this.conjured(item);
+
             switch (item.name) {
+                
                 case 'Aged Brie':
                     return this.agedBrie(item);
     
@@ -81,7 +95,7 @@ export class GildedRose {
                 
                 case 'Sulfuras, Hand of Ragnaros':
                     return this.sulfuras(item);
-
+                                  
                 default:
                     return this.basicItems(item);
 

@@ -3,7 +3,7 @@ import { Item, GildedRose } from '../app/gilded-rose';
 
 describe('Gilded Rose', function () {
 
-    it('Aged Brie actually increases in Quality the older it gets', function () {
+     it('Aged Brie actually increases in Quality the older it gets', function () {
         const gildedRose = new GildedRose([new Item('Aged Brie', 5, 10)]);
 
         const exptectedResult = [
@@ -102,8 +102,45 @@ describe('Gilded Rose', function () {
         expect(item).to.deep.equal(exptectedResult);
     });
 
+    it('Conjured, items degrade in Quality twice as fast as normal items', function () {
+        const gildedRose = new GildedRose([new Item('Conjured Water', 12, 24)]);
+
+        const exptectedResult = [
+            new Item('Conjured Water', 11, 22)
+        ]
+
+        const item = gildedRose.updateQuality();
+        expect(item).to.deep.equal(exptectedResult);
+    });
+
+    it('Conjured, items degrade in Quality twice as fast as normal items', function () {
+        const gildedRose = new GildedRose([new Item('Conjured Water', 0, 49)]);
+
+        const exptectedResult = [
+            new Item('Conjured Water', -1, 45)
+        ]
+
+        const item = gildedRose.updateQuality();
+        expect(item).to.deep.equal(exptectedResult);
+    });
+
+    it('Conjured, items degrade in Quality twice as fast as normal items', function () {
+        const gildedRose = new GildedRose([new Item('Conjured Bread', -2, 20)]);
+
+        const exptectedResult = [
+            new Item('Conjured Bread', -3, 16)
+        ]
+
+        const item = gildedRose.updateQuality();
+        expect(item).to.deep.equal(exptectedResult);
+    });
+
     it('Golden Master Test', function () {
         const gildedRose = new GildedRose([
+            new Item('Conjured Bread', 0, 10), 
+            new Item('Conjured Arrow', 2, 10),
+            new Item('Conjured Fire', -3, 12),
+            new Item('Conjured Elemental', 2, 55),
             new Item('Aged Brie', 5, 10), 
             new Item('Aged Brie', 4, 11),
             new Item('Aged Brie', 3, 12),
@@ -129,6 +166,10 @@ describe('Gilded Rose', function () {
         ]);
 
         const goldenRecord = [
+            new Item('Conjured Bread', -1, 6), 
+            new Item('Conjured Arrow', 1, 8),
+            new Item('Conjured Fire', -4, 8),
+            new Item('Conjured Elemental', 1, 53),
             new Item('Aged Brie', 4, 11), 
             new Item('Aged Brie', 3, 12),
             new Item('Aged Brie', 2, 13),
