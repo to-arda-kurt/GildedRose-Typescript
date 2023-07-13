@@ -23,7 +23,7 @@ export class GildedRose {
 
     evenFifty(nmbr: number): number {
         let sellIn = nmbr > 50 ? 50 : nmbr;
-        return  sellIn;
+        return sellIn;
     }
 
     agedBrie(item: Item):Item{
@@ -34,12 +34,12 @@ export class GildedRose {
     }
 
     backStage(item: Item):Item{
-
+        item.sellIn = this.changeDay(item.sellIn);
         if(item.sellIn > 10 && item.sellIn <50) {
             item.quality = item.quality + 1
         }
 
-        if(item.sellIn < 10 && item.sellIn >5) {
+        if(item.sellIn < 10 && item.sellIn >= 5) {
             item.quality = item.quality + 2
         }
 
@@ -51,18 +51,20 @@ export class GildedRose {
             item.quality = 0;
         }
 
+        item.quality = this.evenFifty(item.quality);
         return item;
     }
 
     sulfuras(item:Item):Item {
-
-
-
+        item.quality = 80;
+        item.sellIn = 0;
         return item;
     }
 
     basicItems(item:Item):Item{
-
+        item.sellIn  = this.changeDay(item.sellIn);
+        item.quality = item.sellIn < 0 ? item.quality - 2 : item.quality - 1;
+        item.quality = this.evenFifty(item.quality);    
         return item;
     }
 
@@ -82,11 +84,6 @@ export class GildedRose {
 
                 default:
                     return this.basicItems(item);
-                    break;
-
-
-
-
 
             }
         })
