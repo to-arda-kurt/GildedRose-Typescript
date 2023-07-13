@@ -80,6 +80,28 @@ describe('Gilded Rose', function () {
         expect(item).to.deep.equal(exptectedResult);
     });
 
+    it('Sword, At the end of each day our system lowers both values for every item', function () {
+        const gildedRose = new GildedRose([new Item('Sword', 20, 10)]);
+
+        const exptectedResult = [
+            new Item('Sword', 19, 9)
+        ]
+
+        const item = gildedRose.updateQuality();
+        expect(item).to.deep.equal(exptectedResult);
+    });
+
+    it('Sword, At the end of each day our system lowers both values for every item after by date', function () {
+        const gildedRose = new GildedRose([new Item('Sword', 0, 49)]);
+
+        const exptectedResult = [
+            new Item('Sword', -1, 47)
+        ]
+
+        const item = gildedRose.updateQuality();
+        expect(item).to.deep.equal(exptectedResult);
+    });
+
     it('Golden Master Test', function () {
         const gildedRose = new GildedRose([
             new Item('Aged Brie', 5, 10), 
